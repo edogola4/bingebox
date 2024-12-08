@@ -1,8 +1,8 @@
-import { Routes, Routes } from "react-router-dom";
+import {  Routes } from "react-router-dom";
 
 import  Home  from "./routes/home/home.routes";
-import SignIn  from "./routes/signin/signin.components";
-import  SignUp from "./routes/signup/signup.routes";
+import SignIn  from "./routes/signin/signIn.components";
+import  SignUp from "./routes/signup/signUp.routes";
 import  ProfilePage from "./routes/profilePage/profilePage.components";
 import HomePage from "./routes/homePage/homePage.routes";
 import Edit from "./routes/edit/edit.routes";
