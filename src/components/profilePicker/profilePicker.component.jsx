@@ -21,7 +21,7 @@ const ProfilePicker = ({open, handleImageChange, setOpen}) => {
             <div className='prof__pic'>
                 {profPic.map((pic) => (
                     <div className='prof__pic--img' onClick={() => handleImageChange(pic.img)}>
-                        <img src={pic.img} />
+                        <img src={pic.img} alt={pic.alt || 'Profile picture'} />
                     </div>
                 ))}
             </div>
