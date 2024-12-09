@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//import Typed from 'react-typed'; // Typed animation library
-import { ReactTyped } from 'react-typed';
-
 import { fetchDataFromServer, imageBaseURL, api_key } from '../../utils/api';
 import './HomePage.css';
 
@@ -11,8 +8,10 @@ const HomePage = () => {
     const [genres, setGenres] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedGenre, setSelectedGenre] = useState('all');
+    const [searchResults, setSearchResults] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
 
-    // Fetch popular movies
+    // Fetch popular movies and genres on load
     useEffect(() => {
         const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=1`;
         fetchDataFromServer(url, (data) => {
@@ -20,7 +19,6 @@ const HomePage = () => {
             setFilteredMovies(data.results);
         });
 
-        // Fetch genres
         const genresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=en-US`;
         fetchDataFromServer(genresUrl, (data) => setGenres(data.genres));
     }, []);
@@ -44,28 +42,35 @@ const HomePage = () => {
         setFilteredMovies(filtered);
     }, [searchQuery, selectedGenre, movies]);
 
+    // Handle search functionality
+    useEffect(() => {
+        if (!searchQuery.trim()) {
+            setSearchResults([]);
+            setIsSearching(false);
+            return;
+        }
+
+        setIsSearching(true);
+
+        const timeoutId = setTimeout(() => {
+            const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchQuery}&page=1&include_adult=false`;
+            fetchDataFromServer(searchUrl, ({ results }) => {
+                setSearchResults(results || []);
+                setIsSearching(false);
+            });
+        }, 500);
+
+        return () => clearTimeout(timeoutId);
+    }, [searchQuery]);
+
     return (
         <div className="container">
             {/* Hero Section */}
             <section className="hero">
                 <div className="hero-content">
-                <h1 className="title">Welcome to BingeBox</h1>
-                <p className="subtitle">
-                    Discover the latest and greatest movies, curated just for you.
-                </p>
-                    <ReactTyped
-                        strings={[
-                            'Welcome to BingeBox!',
-                            'Discover your next favorite movie.',
-                            'Stay updated with the latest hits!',
-                        ]}
-                        typeSpeed={50}
-                        backSpeed={30}
-                        loop
-                        className="typed-title"
-                    />
+                    <h1 className="title">Welcome to BingeBox</h1>
                     <p className="subtitle">
-                        
+                        Discover the latest and greatest movies, curated just for you.
                     </p>
                     <button className="cta-button">Explore Now</button>
                 </div>
@@ -92,6 +97,30 @@ const HomePage = () => {
                         </option>
                     ))}
                 </select>
+
+                {/* Search Results Modal */}
+                {searchResults.length > 0 && (
+                    <div className="search-modal">
+                        <p className="label">Results for "{searchQuery}"</p>
+                        <div className="movie-list">
+                            <div className="grid-list">
+                                {searchResults.map((movie) => (
+                                    <div key={movie.id} className="movie-card">
+                                        <img
+                                            src={`${imageBaseURL}w500${movie.poster_path}`}
+                                            alt={movie.title}
+                                            className="movie-image"
+                                        />
+                                        <h3 className="movie-title">{movie.title}</h3>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Loading Indicator */}
+                {isSearching && <p>Loading...</p>}
             </section>
 
             {/* Featured Movies */}
