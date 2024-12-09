@@ -1,106 +1,98 @@
 import React, { useEffect, useState } from 'react';
 import { fetchDataFromServer, imageBaseURL, api_key } from '../../utils/api';
-
-//import { fetchDataFromServer, imageBaseURL, api_key } from './api'; // Adjust path as necessary
+import './HomePage.css';
 
 const HomePage = () => {
-    const [movies, setMovies] = useState([]); // State to store fetched movies
+    const [movies, setMovies] = useState([]);
+    const [filteredMovies, setFilteredMovies] = useState([]);
+    const [genres, setGenres] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedGenre, setSelectedGenre] = useState('all');
 
-    // Fetch movies when the component mounts
+    // Fetch popular movies
     useEffect(() => {
         const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=1`;
-        fetchDataFromServer(url, (data) => setMovies(data.results));
+        fetchDataFromServer(url, (data) => {
+            setMovies(data.results);
+            setFilteredMovies(data.results);
+        });
+
+        // Fetch genres
+        const genresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=en-US`;
+        fetchDataFromServer(genresUrl, (data) => setGenres(data.genres));
     }, []);
 
+    // Filter movies by search query or genre
+    useEffect(() => {
+        let filtered = movies;
+
+        if (searchQuery) {
+            filtered = filtered.filter((movie) =>
+                movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        }
+
+        if (selectedGenre !== 'all') {
+            filtered = filtered.filter((movie) =>
+                movie.genre_ids.includes(Number(selectedGenre))
+            );
+        }
+
+        setFilteredMovies(filtered);
+    }, [searchQuery, selectedGenre, movies]);
+
     return (
-        <div style={styles.container}>
+        <div className="container">
             {/* Hero Section */}
-            <section style={styles.hero}>
-                <h1 style={styles.title}>Welcome to BingeBox</h1>
-                <p style={styles.subtitle}>
+            <section className="hero">
+                <h1 className="title">Welcome to BingeBox</h1>
+                <p className="subtitle">
                     Discover the latest and greatest movies, curated just for you.
                 </p>
-                <button style={styles.ctaButton}>Explore Now</button>
+                <button className="cta-button">Explore Now</button>
+            </section>
+
+            {/* Search and Filter Section */}
+            <section className="filter-section">
+                <input
+                    type="text"
+                    placeholder="Search for movies..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="search-input"
+                />
+                <select
+                    value={selectedGenre}
+                    onChange={(e) => setSelectedGenre(e.target.value)}
+                    className="genre-select"
+                >
+                    <option value="all">All Genres</option>
+                    {genres.map((genre) => (
+                        <option key={genre.id} value={genre.id}>
+                            {genre.name}
+                        </option>
+                    ))}
+                </select>
             </section>
 
             {/* Featured Movies */}
-            <section style={styles.featuredSection}>
-                <h2 style={styles.sectionTitle}>Featured Movies</h2>
-                <div style={styles.movieGrid}>
-                    {movies.map((movie) => (
-                        <div key={movie.id} style={styles.movieCard}>
+            <section className="featured-section">
+                <h2 className="section-title">Featured Movies</h2>
+                <div className="movie-grid">
+                    {filteredMovies.map((movie) => (
+                        <div key={movie.id} className="movie-card">
                             <img
                                 src={`${imageBaseURL}w500${movie.poster_path}`}
                                 alt={movie.title}
-                                style={styles.movieImage}
+                                className="movie-image"
                             />
-                            <h3 style={styles.movieTitle}>{movie.title}</h3>
+                            <h3 className="movie-title">{movie.title}</h3>
                         </div>
                     ))}
                 </div>
             </section>
         </div>
     );
-};
-
-const styles = {
-    container: {
-        fontFamily: 'Arial, sans-serif',
-        margin: '0 auto',
-        maxWidth: '1200px',
-        padding: '20px',
-    },
-    hero: {
-        textAlign: 'center',
-        backgroundColor: '#1c1c1c',
-        color: '#fff',
-        padding: '50px 20px',
-        borderRadius: '10px',
-    },
-    title: {
-        fontSize: '3rem',
-        marginBottom: '10px',
-    },
-    subtitle: {
-        fontSize: '1.5rem',
-        marginBottom: '20px',
-    },
-    ctaButton: {
-        padding: '10px 20px',
-        fontSize: '1rem',
-        color: '#fff',
-        backgroundColor: '#e50914',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-    },
-    featuredSection: {
-        marginTop: '40px',
-    },
-    sectionTitle: {
-        fontSize: '2rem',
-        marginBottom: '20px',
-    },
-    movieGrid: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-        gap: '20px',
-    },
-    movieCard: {
-        textAlign: 'center',
-        padding: '10px',
-        backgroundColor: '#f4f4f4',
-        borderRadius: '10px',
-    },
-    movieImage: {
-        width: '100%',
-        height: 'auto',
-        borderRadius: '5px',
-    },
-    movieTitle: {
-        marginTop: '10px',
-        fontSize: '1.2rem',
-    },
 };
 
 export default HomePage;
