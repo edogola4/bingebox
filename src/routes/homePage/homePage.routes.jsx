@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+//import Typed from 'react-typed'; // Typed animation library
+import { ReactTyped } from 'react-typed';
+
 import { fetchDataFromServer, imageBaseURL, api_key } from '../../utils/api';
 import './HomePage.css';
 
@@ -8,21 +11,35 @@ const HomePage = () => {
     const [genres, setGenres] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedGenre, setSelectedGenre] = useState('all');
-    const [searchResults, setSearchResults] = useState([]);
-    const [isSearching, setIsSearching] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
 
-    // Fetch popular movies and genres on load
-    useEffect(() => {
-        const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=1`;
+     // Fetch popular movies (with pagination)
+    const fetchMovies = (page = 1, append = false) => {
+        const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=${page}`;
+        setIsLoading(true);
         fetchDataFromServer(url, (data) => {
-            setMovies(data.results);
-            setFilteredMovies(data.results);
+            if (append) {
+                setMovies((prevMovies) => [...prevMovies, ...data.results]);
+                setFilteredMovies((prevMovies) => [...prevMovies, ...data.results]);
+            } else {
+                setMovies(data.results);
+                setFilteredMovies(data.results);
+            }
+            setIsLoading(false);
         });
+    };
 
+     // Fetch genres
+     const fetchGenres = () => {
         const genresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=en-US`;
         fetchDataFromServer(genresUrl, (data) => setGenres(data.genres));
-    }, []);
+    };
 
+    useEffect(() => {
+        fetchMovies();
+        fetchGenres();
+    }, []);
     // Filter movies by search query or genre
     useEffect(() => {
         let filtered = movies;
@@ -42,35 +59,35 @@ const HomePage = () => {
         setFilteredMovies(filtered);
     }, [searchQuery, selectedGenre, movies]);
 
-    // Handle search functionality
-    useEffect(() => {
-        if (!searchQuery.trim()) {
-            setSearchResults([]);
-            setIsSearching(false);
-            return;
-        }
-
-        setIsSearching(true);
-
-        const timeoutId = setTimeout(() => {
-            const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchQuery}&page=1&include_adult=false`;
-            fetchDataFromServer(searchUrl, ({ results }) => {
-                setSearchResults(results || []);
-                setIsSearching(false);
-            });
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
-    }, [searchQuery]);
+    // Handle loading more movies
+    const loadMoreMovies = () => {
+        const nextPage = currentPage + 1;
+        setCurrentPage(nextPage);
+        fetchMovies(nextPage, true); // Append new movies
+    };
 
     return (
         <div className="container">
             {/* Hero Section */}
             <section className="hero">
                 <div className="hero-content">
-                    <h1 className="title">Welcome to BingeBox</h1>
+                <h1 className="title">Welcome to BingeBox</h1>
+                <p className="subtitle">
+                    Discover the latest and greatest movies, curated just for you.
+                </p>
+                    <ReactTyped
+                        strings={[
+                            'Welcome to BingeBox!',
+                            'Discover your next favorite movie.',
+                            'Stay updated with the latest hits!',
+                        ]}
+                        typeSpeed={50}
+                        backSpeed={30}
+                        loop
+                        className="typed-title"
+                    />
                     <p className="subtitle">
-                        Discover the latest and greatest movies, curated just for you.
+                        
                     </p>
                     <button className="cta-button">Explore Now</button>
                 </div>
@@ -97,34 +114,10 @@ const HomePage = () => {
                         </option>
                     ))}
                 </select>
-
-                {/* Search Results Modal */}
-                {searchResults.length > 0 && (
-                    <div className="search-modal">
-                        <p className="label">Results for "{searchQuery}"</p>
-                        <div className="movie-list">
-                            <div className="grid-list">
-                                {searchResults.map((movie) => (
-                                    <div key={movie.id} className="movie-card">
-                                        <img
-                                            src={`${imageBaseURL}w500${movie.poster_path}`}
-                                            alt={movie.title}
-                                            className="movie-image"
-                                        />
-                                        <h3 className="movie-title">{movie.title}</h3>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Loading Indicator */}
-                {isSearching && <p>Loading...</p>}
             </section>
 
-            {/* Featured Movies */}
-            <section className="featured-section">
+             {/* Featured Movies */}
+             <section className="featured-section">
                 <h2 className="section-title">Featured Movies</h2>
                 <div className="movie-grid">
                     {filteredMovies.map((movie) => (
@@ -138,6 +131,12 @@ const HomePage = () => {
                         </div>
                     ))}
                 </div>
+                {isLoading && <p className="loading-text">Loading...</p>}
+                {!isLoading && (
+                    <button className="load-more-button" onClick={loadMoreMovies}>
+                        Load More
+                    </button>
+                )}
             </section>
         </div>
     );

@@ -319,3 +319,81 @@
 .filter-section .genre-select {
     margin-bottom: 10px;
 }
+
+/* Featured Movies Section */
+.featured-section {
+    padding: 20px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Movie Grid */
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Movie Card */
+.movie-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+}
+
+/* Movie Image */
+.movie-image {
+    width: 100%;
+    height: auto;
+    border-bottom: 5px solid #f0f0f0;
+}
+
+/* Movie Title */
+.movie-title {
+    font-size: 1.1rem;
+    margin: 10px;
+    text-align: center;
+}
+
+/* Load More Button */
+.load-more-button {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 20px 0;
+}
+
+.load-more-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+.load-more-button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+/* Loading Text */
+.loading-text {
+    font-size: 1rem;
+    color: #007bff;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
