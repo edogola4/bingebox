@@ -538,3 +538,39 @@
     text-align: center;
     color: #ccc; /* Subtle text for secondary info */
 }
+
+
+/* Trailer Button */
+.trailer-button {
+    background-color: #ff5733; /* Bold, modern color */
+    color: #fff; /* White text for contrast */
+    font-size: 1rem; /* Comfortable size */
+    padding: 12px 24px; /* Spacious padding for better clickability */
+    border: none;
+    border-radius: 25px; /* Rounded button */
+    text-transform: uppercase; /* Bold text */
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for hover and focus */
+    display: inline-block; /* Keep it inline but still clickable */
+    margin-top: 10px; /* Add margin if needed */
+}
+
+/* Hover Effect */
+.trailer-button:hover {
+    background-color: #ff3d00; /* Darker shade for hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+/* Focus Effect */
+.trailer-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 87, 51, 0.3); /* Highlight button when focused */
+}
+
+/* Active Effect */
+.trailer-button:active {
+    transform: scale(1); /* Slightly reduce scale when clicked */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Lighter shadow when clicked */
+}
