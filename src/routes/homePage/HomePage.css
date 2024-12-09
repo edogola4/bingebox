@@ -433,12 +433,27 @@
 }
 
 /* Loading Text */
+/* Modern Loading Text */
 .loading-text {
-    font-size: 1rem;
-    color: #007bff;
+    font-size: 1.2rem; /* Slightly larger text for visibility */
+    color: #007bff; /* Keep the blue color for consistency */
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 20px;
+    animation: fade-in-out 1.5s infinite; /* Add a fade animation */
+    text-align: center; /* Center-align the text */
+    letter-spacing: 0.05rem; /* Add slight spacing for a modern look */
 }
+
+/* Keyframe animation for fade effect */
+@keyframes fade-in-out {
+    0%, 100% {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
 
 
 .genre-button {
@@ -457,28 +472,69 @@
     border-color: #007bff;
 }
 
+/* Movie Card */
 .movie-card {
     position: relative;
     overflow: hidden;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
+    border-radius: 15px; /* Smooth border */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth scaling and shadow */
 }
 
 .movie-card:hover {
     transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
 }
 
+/* Movie Image */
+.movie-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: inherit; /* Match the card's rounded corners */
+}
+
+/* Movie Details */
+/* Movie Details (Visible by Default) */
 .movie-details {
     position: absolute;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5));
+    color: #fff;
     width: 100%;
-    padding: 15px;
+    padding: 20px;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(20px); /* Subtle slide effect */
+    border-bottom-left-radius: 15px; /* Smooth edges */
+    border-bottom-right-radius: 15px;
 }
+
+/* Movie Details Hover Effect */
+.movie-card:hover .movie-details {
+    transform: translateY(-10px); /* Slight lift effect on hover */
+    opacity: 1; /* Maintain visibility */
+}
+
 
 .movie-card:hover .movie-details {
     opacity: 1;
+    transform: translateY(0); /* Bring it into view */
+}
+
+/* Movie Title */
+.movie-details h3 {
+    font-size: 1.2rem;
+    margin: 0;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 0.05rem; /* Slight spacing for modern look */
+}
+
+/* Movie Genre/Info */
+.movie-details p {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+    color: #ccc; /* Subtle text for secondary info */
 }
