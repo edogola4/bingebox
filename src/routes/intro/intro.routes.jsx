@@ -7,26 +7,26 @@ import Logo from '../../assets/logo-full.png';
 
 const Intro = () => {
     return (
-        <div className="bg intro">
-            <div className='intro__container'>
-                <div className='intro__head'>
-                    <div className='intro__img'>
-                        <img src={Logo} alt='logo' />
+        <div className="intro">
+            <div className="intro__overlay"></div>
+            <div className="intro__container">
+                <div className="intro__head">
+                    <div className="intro__img">
+                        <img src={Logo} alt="logo" />
                     </div>
-                    <div className='intro__text'>
-                        <h2>Unlimited Movies, TV Shows and More</h2>
-                        <h3>Watch Anywhere!</h3>
+                    <div className="intro__text">
+                        <h2 data-aos="fade-up">Unlimited Movies, TV Shows and More</h2>
+                        <h3 data-aos="fade-up" data-aos-delay="200">Watch Anywhere!</h3>
                     </div>
                 </div>
-
-                <div className='intro__foot'>
-                    <Link to='/signup' style={{textDecoration: 'none'}}>
-                        <BasicBtn text='Start Now!' />
+                <div className="intro__foot">
+                    <Link to="/signup" className="intro__btn-link">
+                        <BasicBtn text="Start Now!" />
                     </Link>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Intro;

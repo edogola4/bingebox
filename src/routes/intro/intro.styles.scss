@@ -1,4 +1,4 @@
-@import '../../index.scss';
+/*@import '../../index.scss';
 
 .intro {
     height: 100vh;
@@ -56,5 +56,108 @@
                 background-color: $color-shadow;
             }
         }
+    }
+}*/
+@import '../../index.scss';
+
+.intro {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('../../assets/bg-2.jpeg') no-repeat center center / cover;
+
+    &__overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+
+    &__container {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: white;
+        padding: 2rem;
+
+        @media (max-width: $bp-small) {
+            padding: 1rem;
+        }
+    }
+
+    &__img img {
+        width: 15rem;
+        height: auto;
+        margin-bottom: 2rem;
+        animation: scale-in 1s ease-in-out;
+
+        @media (max-width: $bp-small) {
+            width: 10rem;
+        }
+    }
+
+    &__text {
+        font-family: $font-secondary;
+        font-weight: 700;
+        text-transform: uppercase;
+
+        h2 {
+            font-size: 3.5rem;
+            animation: fade-in 1s ease-in-out;
+        }
+
+        h3 {
+            font-size: 2rem;
+            margin-top: 1rem;
+            animation: fade-in 1.2s ease-in-out;
+        }
+    }
+
+    &__foot {
+        margin-top: 3rem;
+
+        .intro__btn-link {
+            text-decoration: none;
+
+            button {
+                background: $color-primary;
+                color: white;
+                font-size: 1.6rem;
+                font-weight: bold;
+                padding: 1rem 2.5rem;
+                border-radius: 5rem;
+                transition: all 0.3s ease-in-out;
+
+                &:hover {
+                    background: lighten($color-primary, 10%);
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+}
+
+/* Animations */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scale-in {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
     }
 }
