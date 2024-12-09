@@ -93,7 +93,7 @@ const HomePage = () => {
                         loop
                         className="typed-title"
                     />
-                    <button className="cta-button">Explore Now</button>
+                   {/* <button className="cta-button">Explore Now</button>*/}
                 </div>
             </section>
 
