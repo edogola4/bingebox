@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+//import Typed from 'react-typed'; // Typed animation library
+import { ReactTyped } from 'react-typed';
+
 import { fetchDataFromServer, imageBaseURL, api_key } from '../../utils/api';
 import './HomePage.css';
 
@@ -45,11 +48,27 @@ const HomePage = () => {
         <div className="container">
             {/* Hero Section */}
             <section className="hero">
+                <div className="hero-content">
                 <h1 className="title">Welcome to BingeBox</h1>
                 <p className="subtitle">
                     Discover the latest and greatest movies, curated just for you.
                 </p>
-                <button className="cta-button">Explore Now</button>
+                    <ReactTyped
+                        strings={[
+                            'Welcome to BingeBox!',
+                            'Discover your next favorite movie.',
+                            'Stay updated with the latest hits!',
+                        ]}
+                        typeSpeed={50}
+                        backSpeed={30}
+                        loop
+                        className="typed-title"
+                    />
+                    <p className="subtitle">
+                        
+                    </p>
+                    <button className="cta-button">Explore Now</button>
+                </div>
             </section>
 
             {/* Search and Filter Section */}
