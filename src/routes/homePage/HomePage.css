@@ -574,3 +574,52 @@
     transform: scale(1); /* Slightly reduce scale when clicked */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Lighter shadow when clicked */
 }
+
+
+
+/* Movie Details */
+.movie-details {
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5));
+    color: #fff;
+    width: 100%;
+    padding: 20px;
+   /* opacity: 1; /* Always visible */
+    transform: translateY(0); /* Positioned at the bottom of the card */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    border-bottom-left-radius: 15px; /* Smooth edges */
+    border-bottom-right-radius: 15px;
+}
+
+/* Movie Title */
+.movie-title {
+    font-size: 6.2em; /* Slightly larger title */
+    font-weight: bold;
+    margin: 0;
+    color: #fff; /* White for contrast */
+    text-transform: capitalize; /* Capitalize movie titles */
+    letter-spacing: 1px; /* Add spacing for a modern feel */
+}
+
+/* Movie Info (Rating and Release Year) */
+.movie-info {
+    font-size: 2.9rem; /* Smaller text for info */
+    color: #ddd; /* Light grey color */
+    margin-top: 10px; /* Space between title and info */
+    display: flex;
+    justify-content: space-between; /* Aligns the rating and release date */
+    align-items: center; /* Vertically center the icons */
+    opacity: 0.9; /* Slightly lower opacity for subtlety */
+}
+
+/* Icons Styling */
+.movie-info span {
+    margin-right: 5px; /* Space between icon and text */
+}
+
+/* Hover Effect for Movie Details */
+.movie-card:hover .movie-details {
+    transform: translateY(-10px); /* Slight lift effect on hover */
+    opacity: 1; /* Maintain visibility */
+}
