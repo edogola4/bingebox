@@ -1,7 +1,217 @@
 @import '../../index.scss';
 
-.signup {
+/*.signup {
     min-height: 100vh;
     display: flex;
     align-items: center;
+}*/
+/*$primary-color:   #2575fc;
+$secondary-color: #03dac5;
+$background-dark: #121212;
+$background-light: #ffffff;
+$text-dark: #ffffff;
+$text-light: #181717;
+
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &.dark-mode {
+        background: $background-dark;
+        color: $text-dark;
+    }
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    button {
+        background: none;
+        color: inherit;
+        border: 1px solid currentColor;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, opacity 0.3s;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+.app-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: $text-light;
+}
+
+.form-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background-color: $primary-color;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: darken($primary-color, 10%);
+    }
+}
+*/
+/* Base styles for the auth page container */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+
+    &.dark-mode {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: #f1f1f1;
+    }
+
+    .theme-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+
+        button {
+            background: #fff;
+            color: #6a11cb;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+
+            &:hover {
+                background: #6a11cb;
+                color: #fff;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+        }
+    }
+
+    /* Form container */
+    .form-container {
+        width: 90%;
+        max-width: 500px;
+        padding: 40px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.8s ease-in-out;
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .form-inputs {
+            margin-top: 20px;
+
+            .error-message {
+                color: red;
+                font-size: 14px;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+
+            input {
+                width: 100%;
+                margin: 10px 0;
+                padding: 12px 16px;
+                border: 1px solid rgba(255, 255, 255, 0.6);
+                border-radius: 10px;
+                font-size: 16px;
+                background: rgba(255, 255, 255, 0.2);
+                color: #fff;
+                outline: none;
+                transition: all 0.3s ease-in-out;
+
+                &:focus {
+                    background: rgba(255, 255, 255, 0.5);
+                    border: 1px solid #fff;
+                }
+
+                &.MuiInputBase-input {
+                    padding-left: 36px;
+                }
+            }
+        }
+
+        /* Button styles */
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+
+            button {
+                width: 48%;
+                padding: 12px;
+                font-size: 16px;
+                font-weight: bold;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: transform 0.3s ease, background 0.3s ease;
+
+                &.primary {
+                    background: #6a11cb;
+                    color: #fff;
+
+                    &:hover {
+                        background: #2575fc;
+                        transform: scale(1.05);
+                    }
+                }
+
+                &.secondary {
+                    background: rgba(255, 255, 255, 0.2);
+                    color: #fff;
+
+                    &:hover {
+                        background: rgba(255, 255, 255, 0.4);
+                        transform: scale(1.05);
+                    }
+                }
+            }
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 }

@@ -1,159 +1,173 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { 
+import {
     signInWithGooglePopup,
+    createAuthUserWithEmailAndPassword,
     createUserDocumentFromAuth,
-    createAuthUserWithEmailAndPassword
 } from "../../utils/firebase/firebase.utils";
 
 import Form from "../../components/form/form.component";
-import FormInput from '../../components/formInput/formInput.component';
+import FormInput from "../../components/formInput/formInput.component";
 
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
-import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
+import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 
-import './signUp.styles.scss';
+import "./signUp.styles.scss"; // Ensure this file exists
 
 const defaultFormFields = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-}
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+};
 
-const SignUp = () => {
+const AuthPage = () => {
     const navigate = useNavigate();
 
     const [formFields, setFormFields] = useState(defaultFormFields);
-    const { name, email, password, confirmPassword } = formFields;
-    const [passwordType, setPasswordType] = useState('password');
-    const [confirmPasswordType, setConfirmPasswordType] = useState('password');
+    const [passwordType, setPasswordType] = useState({
+        password: "password",
+        confirmPassword: "password",
+    });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
-    const togglePassword = () => {
-        if (passwordType === 'password') {
-            setPasswordType('text');
-            return;
-        }
-        setPasswordType('password');
-    }
-    
-    const toggleConfirmPassword = () => {
-        if (confirmPasswordType === 'password') {
-            setConfirmPasswordType('text');
-            return;
-        }
-        setConfirmPasswordType('password');
-    }
-
-    const signInWithGoogle = async () => {
-        const {user} = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
-        alert('Account created successfully!');
-        navigate('/profilepage');
+    const togglePasswordVisibility = (field) => {
+        setPasswordType((prev) => ({
+            ...prev,
+            [field]: prev[field] === "password" ? "text" : "password",
+        }));
     };
-    
+
     const handleChange = (event) => {
-        const {name, value} = event.target;
-
-        setFormFields({...formFields, [name]: value});
+        const { name, value } = event.target;
+        setFormFields({ ...formFields, [name]: value });
     };
 
-    const resetFormFields = () => {
-        setFormFields(defaultFormFields);
-    }
-    
+    const resetFormFields = () => setFormFields(defaultFormFields);
+
+    const toggleDarkMode = () => {
+        setIsDarkMode((prev) => !prev);
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        const { name, email, password, confirmPassword } = formFields;
+
         if (password !== confirmPassword) {
-            alert("passwords do not match");
+            setError("Passwords do not match.");
             return;
-        } 
+        }
 
         try {
-            const {user} = await createAuthUserWithEmailAndPassword(
-                email, 
-                password
-            );
-            
-            await createUserDocumentFromAuth(user, {name});
-            alert("Sign up successful!");
+            setLoading(true);
+            const { user } = await createAuthUserWithEmailAndPassword(email, password);
+            await createUserDocumentFromAuth(user, { name });
+            setError(null);
             resetFormFields();
-            navigate('/profilepage');
-
+            navigate("/profilepage");
         } catch (error) {
-            if (error.code === "auth/email-already-in-use") {
-                alert("Cannot create user, email already in use");
-            } else {
-                console.log("user creation encountered an error, error");
-            }
+            const errorMessage =
+                error.code === "auth/email-already-in-use"
+                    ? "Email already in use. Please try logging in."
+                    : "An unexpected error occurred. Please try again.";
+            setError(errorMessage);
+        } finally {
+            setLoading(false);
         }
     };
-    
+
+    const signInWithGoogle = async () => {
+        try {
+            const { user } = await signInWithGooglePopup();
+            await createUserDocumentFromAuth(user);
+            navigate("/profilepage");
+        } catch (error) {
+            setError("Google sign-in failed. Please try again.");
+        }
+    };
+
     return (
-        <div className="signup bg">
-            <Form 
+        <div className={`auth-container ${isDarkMode ? "dark-mode" : ""}`}>
+            <div className="theme-toggle">
+                <button onClick={toggleDarkMode}>
+                    {isDarkMode ? "Light Mode" : "Dark Mode"}
+                </button>
+            </div>
+            <Form
                 signInWithGoogle={signInWithGoogle}
                 handleSubmit={handleSubmit}
-                text='Sign up'
-                google='Sign up with google'
-                rest
+                text="Sign Up"
+                google="Sign Up with Google"
             >
-                <div className='form__inputs'>
-                    <FormInput     
-                        type='name' 
-                        placeholder='Username' 
+                <div className="form-inputs">
+                    {error && <p className="error-message">{error}</p>}
+                    <FormInput
+                        type="text"
+                        placeholder="Username"
                         required
-                        onChange={handleChange} 
-                        name='name' 
-                        value={name}
-                        icon= <PersonRoundedIcon />
+                        onChange={handleChange}
+                        name="name"
+                        value={formFields.name}
+                        icon={<PersonRoundedIcon />}
                     />
-                    
-                    <FormInput     
-                        type='email' 
-                        placeholder='Email' 
+                    <FormInput
+                        type="email"
+                        placeholder="Email"
                         required
-                        onChange={handleChange}  
-                        name='email' 
-                        value={email}
-                        icon= <EmailRoundedIcon />
+                        onChange={handleChange}
+                        name="email"
+                        value={formFields.email}
+                        icon={<EmailRoundedIcon />}
                     />
-                    
-                    <FormInput 
-                        type={passwordType} 
-                        placeholder='Password' 
-                        required 
-                        onChange={handleChange}  
-                        name='password' 
-                        value={password}
-                        icon= {passwordType === 'password' ? (
-                            <VisibilityOffRoundedIcon onClick= {togglePassword}/>
-                        ) : (
-                            <VisibilityRoundedIcon onClick={togglePassword} />
-                        )}
+                    <FormInput
+                        type={passwordType.password}
+                        placeholder="Password"
+                        required
+                        onChange={handleChange}
+                        name="password"
+                        value={formFields.password}
+                        icon={
+                            passwordType.password === "password" ? (
+                                <VisibilityOffRoundedIcon
+                                    onClick={() => togglePasswordVisibility("password")}
+                                />
+                            ) : (
+                                <VisibilityRoundedIcon
+                                    onClick={() => togglePasswordVisibility("password")}
+                                />
+                            )
+                        }
                     />
-                    
-                    <FormInput 
-                        type={confirmPasswordType} 
-                        placeholder='Confirm Password' 
-                        required 
-                        onChange={handleChange} 
-                        name='confirmPassword' 
-                        value={confirmPassword}
-                        icon= {confirmPasswordType === 'password' ? (
-                            <VisibilityOffRoundedIcon onClick= {toggleConfirmPassword}/>
-                        ) : (
-                            <VisibilityRoundedIcon onClick={toggleConfirmPassword} />
-                        )}
+                    <FormInput
+                        type={passwordType.confirmPassword}
+                        placeholder="Confirm Password"
+                        required
+                        onChange={handleChange}
+                        name="confirmPassword"
+                        value={formFields.confirmPassword}
+                        icon={
+                            passwordType.confirmPassword === "password" ? (
+                                <VisibilityOffRoundedIcon
+                                    onClick={() => togglePasswordVisibility("confirmPassword")}
+                                />
+                            ) : (
+                                <VisibilityRoundedIcon
+                                    onClick={() => togglePasswordVisibility("confirmPassword")}
+                                />
+                            )
+                        }
                     />
                 </div>
+                {loading && <p className="loading-message">Processing...</p>}
             </Form>
         </div>
-    )
-}
+    );
+};
 
-export default SignUp;
+export default AuthPage;
