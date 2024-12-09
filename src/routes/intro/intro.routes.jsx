@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './intro.styles.scss';
 
 import BasicBtn from '../../components/basicBtn/basicBtn.component';
-import Logo from '../../assets/logo-full.png';
+//import Logo from '../../assets/logo-full.png';
 
 const Intro = () => {
     return (
@@ -12,7 +12,7 @@ const Intro = () => {
             <div className="intro__container">
                 <div className="intro__head">
                     <div className="intro__img">
-                        <img src={Logo} alt="logo" />
+                       {/* <img src={Logo} alt="logo" />*/}
                     </div>
                     <div className="intro__text">
                         <h2 data-aos="fade-up">Unlimited Movies, TV Shows and More</h2>
