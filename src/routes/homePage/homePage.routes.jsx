@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-//import Typed from 'react-typed'; // Typed animation library
 import { ReactTyped } from 'react-typed';
-
 import { fetchDataFromServer, imageBaseURL, api_key } from '../../utils/api';
 import './HomePage.css';
 
@@ -10,11 +8,10 @@ const HomePage = () => {
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [genres, setGenres] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedGenre, setSelectedGenre] = useState('all');
+    const [selectedGenres, setSelectedGenres] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
 
-     // Fetch popular movies (with pagination)
     const fetchMovies = (page = 1, append = false) => {
         const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=${page}`;
         setIsLoading(true);
@@ -30,8 +27,7 @@ const HomePage = () => {
         });
     };
 
-     // Fetch genres
-     const fetchGenres = () => {
+    const fetchGenres = () => {
         const genresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=en-US`;
         fetchDataFromServer(genresUrl, (data) => setGenres(data.genres));
     };
@@ -40,7 +36,7 @@ const HomePage = () => {
         fetchMovies();
         fetchGenres();
     }, []);
-    // Filter movies by search query or genre
+
     useEffect(() => {
         let filtered = movies;
 
@@ -50,20 +46,34 @@ const HomePage = () => {
             );
         }
 
-        if (selectedGenre !== 'all') {
+        if (selectedGenres.length > 0) {
             filtered = filtered.filter((movie) =>
-                movie.genre_ids.includes(Number(selectedGenre))
+                selectedGenres.every((genre) => movie.genre_ids.includes(Number(genre)))
             );
         }
 
         setFilteredMovies(filtered);
-    }, [searchQuery, selectedGenre, movies]);
+    }, [searchQuery, selectedGenres, movies]);
 
-    // Handle loading more movies
     const loadMoreMovies = () => {
         const nextPage = currentPage + 1;
         setCurrentPage(nextPage);
-        fetchMovies(nextPage, true); // Append new movies
+        fetchMovies(nextPage, true);
+    };
+
+    const toggleGenreSelection = (genreId) => {
+        setSelectedGenres((prev) =>
+            prev.includes(genreId)
+                ? prev.filter((id) => id !== genreId)
+                : [...prev, genreId]
+        );
+    };
+
+    const openTrailer = (movieId) => {
+        const trailerUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(
+            `Trailer ${movieId}`
+        )}`;
+        window.open(trailerUrl, '_blank');
     };
 
     return (
@@ -71,10 +81,7 @@ const HomePage = () => {
             {/* Hero Section */}
             <section className="hero">
                 <div className="hero-content">
-                <h1 className="title">Welcome to BingeBox</h1>
-                <p className="subtitle">
-                    Discover the latest and greatest movies, curated just for you.
-                </p>
+                    <h1 className="title">Welcome to BingeBox</h1>
                     <ReactTyped
                         strings={[
                             'Welcome to BingeBox!',
@@ -86,9 +93,6 @@ const HomePage = () => {
                         loop
                         className="typed-title"
                     />
-                    <p className="subtitle">
-                        
-                    </p>
                     <button className="cta-button">Explore Now</button>
                 </div>
             </section>
@@ -102,22 +106,23 @@ const HomePage = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="search-input"
                 />
-                <select
-                    value={selectedGenre}
-                    onChange={(e) => setSelectedGenre(e.target.value)}
-                    className="genre-select"
-                >
-                    <option value="all">All Genres</option>
+                <div className="genre-filters">
                     {genres.map((genre) => (
-                        <option key={genre.id} value={genre.id}>
+                        <button
+                            key={genre.id}
+                            onClick={() => toggleGenreSelection(genre.id)}
+                            className={`genre-button ${
+                                selectedGenres.includes(genre.id) ? 'selected' : ''
+                            }`}
+                        >
                             {genre.name}
-                        </option>
+                        </button>
                     ))}
-                </select>
+                </div>
             </section>
 
-             {/* Featured Movies */}
-             <section className="featured-section">
+            {/* Featured Movies */}
+            <section className="featured-section">
                 <h2 className="section-title">Featured Movies</h2>
                 <div className="movie-grid">
                     {filteredMovies.map((movie) => (
@@ -127,7 +132,19 @@ const HomePage = () => {
                                 alt={movie.title}
                                 className="movie-image"
                             />
-                            <h3 className="movie-title">{movie.title}</h3>
+                            <div className="movie-details">
+                                <h3 className="movie-title">{movie.title}</h3>
+                                <p className="movie-info">
+                                    ⭐ {movie.vote_average} | 📅{' '}
+                                    {new Date(movie.release_date).getFullYear()}
+                                </p>
+                                <button
+                                    className="trailer-button"
+                                    onClick={() => openTrailer(movie.title)}
+                                >
+                                    Watch Trailer
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>
