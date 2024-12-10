@@ -10,7 +10,7 @@ import Form from "../../components/form/form.component";
 import FormInput from "../../components/formInput/formInput.component";
 
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+//import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 
