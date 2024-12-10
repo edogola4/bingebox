@@ -1,10 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from "firebase/analytics";
 
-import { 
-    getAuth, 
-    signInWithRedirect, 
-    signInWithPopup, 
+import {
+    getAuth,
+    signInWithRedirect,
+    signInWithPopup,
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword
@@ -19,19 +19,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-   // apiKey: "AIzaSyAYH18xNhMQa8Tx4XqUajSqjEYHO2GV4IM",
-   apiKey: "AIzaSyDC9qxRtHidn3HpWu3NZN9mXMGkwjyd1aE",
-   // authDomain: "cinemaedge-759fb.firebaseapp.com",
-   authDomain: "bingebox-9e30c.firebaseapp.com",
-   // projectId: "cinemaedge-759fb",
-   projectId: "bingebox-9e30c",
-   // storageBucket: "cinemaedge-759fb.appspot.com",
-   storageBucket: "bingebox-9e30c.firebasestorage.app",
-   // messagingSenderId: "170234766483",
+    apiKey: "AIzaSyDC9qxRtHidn3HpWu3NZN9mXMGkwjyd1aE",
+    authDomain: "bingebox-9e30c.firebaseapp.com",
+    projectId: "bingebox-9e30c",
+    storageBucket: "bingebox-9e30c.firebasestorage.app",
     messagingSenderId: "421197086912",
-    // appId: "1:170234766483:web:114b9d3b46e994fcb5d966"
     appId: "1:421197086912:web:d3231839e9f3a7a6cd2d25",
-  measurementId: "G-GSF74CD5GH"
+    measurementId: "G-GSF74CD5GH"
 };
 
 //initialize firebase
@@ -55,18 +49,18 @@ export const db = getFirestore();
 
 //async function that receives user database
 export const createUserDocumentFromAuth = async (
-    userAuth, 
+    userAuth,
     additionalInfo = {}
 ) => {
-    if(!userAuth) return;
-    
+    if (!userAuth) return;
+
     const userDocRef = doc(db, "users", userAuth.uid);
-    
+
     const userSnapshot = await getDoc(userDocRef);
-    
+
     //if the usersnapshot doesn't exist in the firestore database
-    if(!userSnapshot.exists()) {  
-        const {displayName, email} = userAuth;
+    if (!userSnapshot.exists()) {
+        const { displayName, email } = userAuth;
         const createdAt = new Date();
 
         try {
