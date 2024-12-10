@@ -105,8 +105,8 @@ const AuthForm = ({ createAuthUserWithEmailAndPassword, createUserDocumentFromAu
 };
 
 export default AuthForm;
-
 */
+
 
 
 import { useState } from "react";
@@ -282,3 +282,4 @@ const AuthPage = () => {
 };
 
 export default AuthPage;
+
