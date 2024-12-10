@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getAnalytics } from "firebase/analytics";
 
 import { 
     getAuth, 
@@ -18,16 +19,25 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAYH18xNhMQa8Tx4XqUajSqjEYHO2GV4IM",
-    authDomain: "cinemaedge-759fb.firebaseapp.com",
-    projectId: "cinemaedge-759fb",
-    storageBucket: "cinemaedge-759fb.appspot.com",
-    messagingSenderId: "170234766483",
-    appId: "1:170234766483:web:114b9d3b46e994fcb5d966"
+   // apiKey: "AIzaSyAYH18xNhMQa8Tx4XqUajSqjEYHO2GV4IM",
+   apiKey: "AIzaSyDC9qxRtHidn3HpWu3NZN9mXMGkwjyd1aE",
+   // authDomain: "cinemaedge-759fb.firebaseapp.com",
+   authDomain: "bingebox-9e30c.firebaseapp.com",
+   // projectId: "cinemaedge-759fb",
+   projectId: "bingebox-9e30c",
+   // storageBucket: "cinemaedge-759fb.appspot.com",
+   storageBucket: "bingebox-9e30c.firebasestorage.app",
+   // messagingSenderId: "170234766483",
+    messagingSenderId: "421197086912",
+    // appId: "1:170234766483:web:114b9d3b46e994fcb5d966"
+    appId: "1:421197086912:web:d3231839e9f3a7a6cd2d25",
+  measurementId: "G-GSF74CD5GH"
 };
 
 //initialize firebase
 const firebaseApp = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 const googleProvider = new GoogleAuthProvider();
 
