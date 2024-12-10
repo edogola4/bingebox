@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+/*import { initializeApp } from 'firebase/app';
 
 import { 
     getAuth, 
@@ -95,4 +95,29 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 // export const signOutUser = async () => await signOut(auth);
 
 // export const onAuthStateChangedListener = (callback) =>
-//     onAuthStateChanged(auth, callback);
+//     onAuthStateChanged(auth, callback);*/
+
+
+
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAs1KFOIZnTqXBRXdJrmjoTTPV-W86XvMU",
+  authDomain: "bingebox-253b9.firebaseapp.com",
+  projectId: "bingebox-253b9",
+  storageBucket: "bingebox-253b9.firebasestorage.app",
+  messagingSenderId: "180720640409",
+  appId: "1:180720640409:web:86a07306638c3f4e5bb308",
+  measurementId: "G-MH9PPFPV46"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
