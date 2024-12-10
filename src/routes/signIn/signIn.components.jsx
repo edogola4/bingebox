@@ -1,132 +1,120 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { 
+import {
     signInWithGooglePopup,
-    createUserDocumentFromAuth,
-    signInAuthUserWithEmailAndPassword 
+    signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 
 import Form from "../../components/form/form.component";
-import FormInput from '../../components/formInput/formInput.component';
+import FormInput from "../../components/formInput/formInput.component";
 
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
-import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
+import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 
-import './signIn.styles.scss';
+import "./signIn.styles.scss";
 
 const defaultFormFields = {
-    name: '',
-    email: '',
-    password: ''
-}
+    email: "",
+    password: "",
+};
 
 const SignIn = () => {
     const navigate = useNavigate();
-    
     const [formFields, setFormFields] = useState(defaultFormFields);
-    const { name, email, password } = formFields;
-    const [passwordType, setPasswordType] = useState('password');
+    const [passwordType, setPasswordType] = useState("password");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const { email, password } = formFields;
 
     const togglePassword = () => {
-        if (passwordType === 'password') {
-            setPasswordType('text');
-            return;
-        }
-        setPasswordType('password');
-    }
+        setPasswordType((prevType) =>
+            prevType === "password" ? "text" : "password"
+        );
+    };
 
     const handleChange = (event) => {
-        const {name, value} = event.target;
-
-        setFormFields({...formFields, [name]: value});
+        const { name, value } = event.target;
+        setFormFields({ ...formFields, [name]: value });
     };
 
-    const resetFormFields = () => {
-        setFormFields(defaultFormFields);
-    }
-    
-    const signInWithGoogle = async () => {
-        const {user} = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
-        alert('Signed in Successfully!');
-        navigate('/profilepage');
-    };
-    
+    const resetFormFields = () => setFormFields(defaultFormFields);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);
+        setError(null);
 
         try {
-            const response = await signInAuthUserWithEmailAndPassword(
-                email, 
-                password
-            );
-            
-            alert('Login Successful!');
+            await signInAuthUserWithEmailAndPassword(email, password);
+            alert("Login Successful!");
             resetFormFields();
-            navigate('/profilepage');
+            navigate("/profilepage");
         } catch (error) {
-            switch(error.code) {
-                case "auth/wrong-password":
-                    alert("incorrect password for email");
-                    break
-                case "auth/user-not-found":
-                    alert("no user associated with this email");
-                    break;
-                default:
-                    console.log(error);
-            }
+            setError("Invalid credentials. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const signInWithGoogle = async () => {
+        setLoading(true);
+        try {
+            await signInWithGooglePopup();
+            navigate("/profilepage");
+        } catch (error) {
+            setError("Google sign-in failed. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="signin bg">
+        <div className="signin">
             <Form
                 signInWithGoogle={signInWithGoogle}
-                handleSubmit={handleSubmit} 
-                text='Login'
-                google='Sign in with google'
+                handleSubmit={handleSubmit}
+                text="Login"
+                google="Sign in with Google"
             >
-                <div className='form__inputs'>
-                    <FormInput     
-                        type='name' 
-                        placeholder='Username' 
+                <div className="form__inputs">
+                    {error && <p className="error-message">{error}</p>}
+                    <FormInput
+                        type="email"
+                        placeholder="Email"
                         required
-                        onChange={handleChange} 
-                        name='name' 
-                        value={name}
-                        icon= <PersonRoundedIcon />
-                    />
-
-                    <FormInput     
-                        type='email' 
-                        placeholder='Email' 
-                        required
-                        onChange={handleChange} 
-                        name='email' 
+                        onChange={handleChange}
+                        name="email"
                         value={email}
-                        icon= <EmailRoundedIcon />
+                        icon={<EmailRoundedIcon />}
                     />
-                    
-                    <FormInput 
-                        type={passwordType} 
-                        placeholder='Password' 
-                        required 
-                        onChange={handleChange} 
-                        name='password' 
+                    <FormInput
+                        type={passwordType}
+                        placeholder="Password"
+                        required
+                        onChange={handleChange}
+                        name="password"
                         value={password}
-                        icon= {passwordType === 'password' ? (
-                            <VisibilityOffRoundedIcon onClick= {togglePassword}/>
-                        ) : (
-                            <VisibilityRoundedIcon onClick={togglePassword} />
-                        )}
+                        icon={
+                            passwordType === "password" ? (
+                                <VisibilityOffRoundedIcon
+                                    onClick={togglePassword}
+                                />
+                            ) : (
+                                <VisibilityRoundedIcon
+                                    onClick={togglePassword}
+                                />
+                            )
+                        }
                     />
                 </div>
+                {loading && <p>Loading...</p>}
             </Form>
         </div>
-    )
-}
+    );
+};
 
 export default SignIn;
