@@ -36,6 +36,7 @@ const ProfilePage = () => {
     
     const title = 'Who\'s Watching?';
 
+     // Page state variables
     const [initialState, setInitialState] = useState({});
     const [profiles, setProfiles] = useState([]);
     const [image, setImage] = useState('');
@@ -46,6 +47,8 @@ const ProfilePage = () => {
     const [buttonChange, setButtonChange] = useState('Edit');
     const [animation, setAnimation] = useState(false);
 
+
+    // Fetch profiles from Firestore
     useEffect(() => {
         const profilesCollectionRef = collection(userDocRef, 'profiles');
         const profilesListener = onSnapshot(profilesCollectionRef, (snapshot) => {
