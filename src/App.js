@@ -7,6 +7,9 @@ import ProfilePage from "./routes/profilePage/profilePage.component";
 import HomePage from "./routes/homePage/homePage.routes";
 import Edit from "./routes/edit/edit.routes";
 
+import './firebase/firebase.utils';
+
+
 const App = () => {
   return (
     <Routes>
@@ -16,6 +19,8 @@ const App = () => {
       <Route path="/profilepage" element={<ProfilePage />} />
       <Route path="/homepage/:id" element={<HomePage />} />
       <Route path="/editprofile/:id" element={<Edit />} />
+
+      
     </Routes>
   );
 }
