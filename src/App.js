@@ -7,7 +7,9 @@ import ProfilePage from "./routes/profilePage/profilePage.component";
 import HomePage from "./routes/homePage/homePage.routes";
 import Edit from "./routes/edit/edit.routes";
 
-import './firebase/firebase.utils';
+//import './firebase/firebase.utils';
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from './utils/firebase/firebase.utils';
+
 
 
 const App = () => {
