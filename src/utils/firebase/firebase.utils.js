@@ -1,4 +1,4 @@
-/*import { initializeApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 
 import { 
     getAuth, 
@@ -121,9 +121,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-*/
 
 
+
+/*
 // Import Firebase functions
 import { initializeApp } from 'firebase/app';
 import { 
@@ -218,3 +219,5 @@ export const signOutUser = async () => await signOut(auth);
 
 // Listen for auth state changes
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
+
+*/

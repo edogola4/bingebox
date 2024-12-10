@@ -1,11 +1,11 @@
-/*@import '../../index.scss';
+@import '../../index.scss';
 
-*.signup {
+/*.signup {
     min-height: 100vh;
     display: flex;
     align-items: center;
 }*/
-/*$primary-color:   #2575fc;
+$primary-color:   #2575fc;
 $secondary-color: #03dac5;
 $background-dark: #121212;
 $background-light: #ffffff;
@@ -74,9 +74,9 @@ button {
         background-color: darken($primary-color, 10%);
     }
 }
-*/
 
-/* Base styles for the auth page container *
+
+/* Base styles for the auth page container */
 .auth-container {
     display: flex;
     justify-content: center;
@@ -116,7 +116,7 @@ button {
         }
     }
 
-    /* Form container *
+    /* Form container */
     .form-container {
         width: 90%;
         max-width: 500px;
@@ -166,7 +166,7 @@ button {
             }
         }
 
-        /* Button styles *
+        /* Button styles */
         .buttons {
             display: flex;
             justify-content: space-between;
@@ -216,11 +216,11 @@ button {
         }
     }
 }
-*/
 
 
 
-/* General Container */
+
+/* General Container *
 .auth-container {
     max-width: 400px;
     margin: 50px auto;
@@ -232,7 +232,7 @@ button {
     text-align: center;
 }
 
-/* Title */
+/* Title *
 .auth-container h2 {
     margin-bottom: 20px;
     font-size: 24px;
@@ -240,7 +240,7 @@ button {
     color: #333;
 }
 
-/* Form Inputs */
+/* Form Inputs *
 .form-inputs {
     display: flex;
     flex-direction: column;
@@ -261,7 +261,7 @@ button {
     box-shadow: 0 0 5px rgba(98, 0, 234, 0.3);
 }
 
-/* Button */
+/* Button *
 button {
     padding: 12px 20px;
     font-size: 16px;
@@ -283,7 +283,7 @@ button:hover:not(:disabled) {
     background-color: #3700b3;
 }
 
-/* Error Message */
+/* Error Message *
 .error-message {
     color: #d32f2f;
     background: rgba(211, 47, 47, 0.1);
@@ -293,14 +293,14 @@ button:hover:not(:disabled) {
     animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Loading Message */
+/* Loading Message *
 .loading-message {
     color: #6200ea;
     font-weight: bold;
     animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Animations */
+/* Animations *
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -311,3 +311,4 @@ button:hover:not(:disabled) {
         transform: translateY(0);
     }
 }
+*/
