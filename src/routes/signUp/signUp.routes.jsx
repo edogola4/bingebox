@@ -1,7 +1,5 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
     signInWithGooglePopup,
     createAuthUserWithEmailAndPassword,
@@ -77,7 +75,7 @@ const AuthPage = () => {
             resetFormFields();
             navigate('/profilepage');
         } catch (error) {
-            switch(error.code) {
+            switch (error.code) {
                 case "auth/email-already-in-use":
                     setError("Email already in use");
                     break;
@@ -91,65 +89,81 @@ const AuthPage = () => {
 
     return (
         <div className="auth-container">
-            <Form
-                signInWithGoogle={signInWithGoogle}
-                handleSubmit={handleSubmit}
-                text="Sign Up"
-                google="Sign Up with Google"
-            >
-                {error && <p className="error-message">{error}</p>}
-                <div className="form-inputs">
-                    <FormInput
-                        type="text"
-                        placeholder="Username"
-                        required
-                        onChange={handleChange}
-                        name="name"
-                        value={name}
-                        icon={<PersonRoundedIcon />}
-                    />
-                    <FormInput
-                        type="email"
-                        placeholder="Email"
-                        required
-                        onChange={handleChange}
-                        name="email"
-                        value={email}
-                        icon={<EmailRoundedIcon />}
-                    />
-                    <FormInput
-                        type={passwordType.password}
-                        placeholder="Password"
-                        required
-                        onChange={handleChange}
-                        name="password"
-                        value={password}
-                        icon={
-                            passwordType.password === "password" ? (
-                                <VisibilityOffRoundedIcon onClick={() => togglePasswordVisibility("password")}/>
-                            ) : (
-                                <VisibilityRoundedIcon onClick={() => togglePasswordVisibility("password")} />
-                            )
-                        }
-                    />
-                    <FormInput
-                        type={passwordType.confirmPassword}
-                        placeholder="Confirm Password"
-                        required
-                        onChange={handleChange}
-                        name="confirmPassword"
-                        value={confirmPassword}
-                        icon={
-                            passwordType.confirmPassword === "password" ? (
-                                <VisibilityOffRoundedIcon onClick={() => togglePasswordVisibility("confirmPassword")}/>
-                            ) : (
-                                <VisibilityRoundedIcon onClick={() => togglePasswordVisibility("confirmPassword")} />
-                            )
-                        }
-                    />
-                </div>
-                {loading && <p>Signing up...</p>}
-            </Form>
+            <div className="form-wrapper">
+                <h2 className="form-title">Create Your Account</h2>
+                <p className="form-subtitle">Join us and enjoy personalized features</p>
+                <Form
+                    signInWithGoogle={signInWithGoogle}
+                    handleSubmit={handleSubmit}
+                    text="Sign Up"
+                    google="Sign Up with Google"
+                >
+                    {error && <p className="error-message">{error}</p>}
+                    <div className="form-inputs">
+                        <FormInput
+                            type="text"
+                            placeholder="Username"
+                            required
+                            onChange={handleChange}
+                            name="name"
+                            value={name}
+                            icon={<PersonRoundedIcon />}
+                        />
+                        <FormInput
+                            type="email"
+                            placeholder="Email"
+                            required
+                            onChange={handleChange}
+                            name="email"
+                            value={email}
+                            icon={<EmailRoundedIcon />}
+                        />
+                        <FormInput
+                            type={passwordType.password}
+                            placeholder="Password"
+                            required
+                            onChange={handleChange}
+                            name="password"
+                            value={password}
+                            icon={
+                                passwordType.password === "password" ? (
+                                    <VisibilityOffRoundedIcon
+                                        className="password-toggle"
+                                        onClick={() => togglePasswordVisibility("password")}
+                                    />
+                                ) : (
+                                    <VisibilityRoundedIcon
+                                        className="password-toggle"
+                                        onClick={() => togglePasswordVisibility("password")}
+                                    />
+                                )
+                            }
+                        />
+                        <FormInput
+                            type={passwordType.confirmPassword}
+                            placeholder="Confirm Password"
+                            required
+                            onChange={handleChange}
+                            name="confirmPassword"
+                            value={confirmPassword}
+                            icon={
+                                passwordType.confirmPassword === "password" ? (
+                                    <VisibilityOffRoundedIcon
+                                        className="password-toggle"
+                                        onClick={() => togglePasswordVisibility("confirmPassword")}
+                                    />
+                                ) : (
+                                    <VisibilityRoundedIcon
+                                        className="password-toggle"
+                                        onClick={() => togglePasswordVisibility("confirmPassword")}
+                                    />
+                                )
+                            }
+                        />
+                    </div>
+                    {loading && <p className="loading-message">Signing up...</p>}
+                </Form>
+            </div>
         </div>
     );
 };
