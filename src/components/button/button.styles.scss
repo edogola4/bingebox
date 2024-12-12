@@ -1,54 +1,73 @@
-@import '../../index.scss';
-
-.form__button {
-    margin-top: 5rem;
-    width: 100%;
+.button-container {
     display: flex;
-    justify-content: center;
-    padding: 0rem 10rem;
-    gap: 2rem;
-
-    @media (max-width: $bp-largest) {
-        flex-direction: column;
-        align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  
+    button {
+      width: 100%;
+      max-width: 300px;
+      padding: 0.75rem 1.5rem;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      &:hover {
+        transform: scale(1.05);
+      }
     }
-
-    @media (max-width:$bp-medium) {
-        padding: 0rem 3rem;
+  
+    &__standard {
+      background-color: #1976d2;
+      color: white;
+  
+      &:hover {
+        background-color: #115293;
+      }
+  
+      &.button-container__loading {
+        background-color: #c0c0c0;
+        cursor: not-allowed;
+      }
     }
-
-    & button {
-        font-family: inherit;
-        width: 50%;
-        font-size: 1.8rem;
-        font-weight: 500;
-        box-shadow: 0px 1px 5px $color-primary-dark;
-        background-color: $color-primary;
-        color: $color-black;
-
-        @media (max-width:$bp-medium) {
-            width: 70%;
-        }
-        
-        @media (max-width:$bp-small) {
-            width: 100%;
-        }
-
-        &:hover {
-            background-color: $color-primary;
-            box-shadow: 0px 1px 5px $color-primary-dark;
-        }
+  
+    &__google {
+      background-color: #db4437;
+      color: white;
+  
+      &:hover {
+        background-color: #c33b2e;
+      }
     }
-
-    &--google {
-        background-color: $color-black !important;
-        color: $color-white !important;
-        box-shadow: 0px 3px 5px $color-black !important;
-        align-items: center;
-        gap: 8px;
-
-        & svg {
-            fill: $color-primary-dark;
-        }
+  
+    &__facebook {
+      background-color: #4267b2;
+      color: white;
+  
+      &:hover {
+        background-color: #365899;
+      }
     }
-}
+  
+    &__twitter {
+      background-color: #1da1f2;
+      color: white;
+  
+      &:hover {
+        background-color: #1a91da;
+      }
+    }
+  
+    &__apple {
+      background-color: #000000;
+      color: white;
+  
+      &:hover {
+        background-color: #333333;
+      }
+    }
+  }
+  
