@@ -2,48 +2,83 @@
 
 .form__rest {
     margin-top: 3rem;
-    padding: 0rem 10rem;
+    padding: 2rem 5rem;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
+    gap: 2rem;
+    //background-color: $color-background-dark;
+    $color-background-dark: #1e1e2f; 
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.8s ease-in-out;
 
-    @media (max-width:$bp-small) {
-        padding: 0rem 3rem;
+    @media (max-width: $bp-small) {
+        padding: 1.5rem;
     }
 
     & .remember {
         display: flex;
+        align-items: center;
+        gap: 1rem;
 
         & input[type=checkbox] {
-            width: 4rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid $color-primary-light;
+            border-radius: 4px;
+            transition: all 0.3s ease;
         }
-        
+
+        & input[type=checkbox]:hover {
+            transform: scale(1.1);
+        }
+
         & input[type=checkbox]:checked {
             accent-color: $color-primary-light;
             color: $color-white;
         }
 
         & label {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             color: $color-white;
+            font-weight: bold;
         }
     }
 
     & .signup__form {
         text-align: center;
         width: 100%;
-        
+
         & p {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            //color: $color-text-light;
+            $color: #c1c1ce; 
+            margin: 0;
         }
-        
+
         & a {
             color: $color-primary;
-            text-decoration: underline;
-            cursor: pointer;
-            margin-left: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease;
+
+            &:hover {
+                color: $color-primary-dark;
+                transform: scale(1.1);
+            }
         }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
