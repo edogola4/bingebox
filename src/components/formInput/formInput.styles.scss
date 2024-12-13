@@ -1,24 +1,44 @@
 @import '../../index.scss';
 
 .form-group {
+    position: relative;
+    margin-bottom: 2rem;
+
+    &__label {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: $color-primary-light;
+        margin-bottom: 0.5rem;
+        display: block;
+        transition: color 0.3s ease-in-out;
+
+        &:hover {
+            color: $color-primary-dark;
+        }
+    }
 
     &__input {
         display: flex;
         align-items: center;
+        position: relative;
 
         & input {
             width: 100%;
             border: none;
-            border-bottom: 1px solid $color-primary-light;
-            box-shadow: 0px 0px 0px $color-primary-light;
+            border-bottom: 2px solid $color-primary-light;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             background-color: $color-black-light;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 1.5rem 5rem;
             display: block;
             color: $color-primary;
-        
+            font-size: 1.6rem;
+            transition: all 0.3s ease-in-out;
+
             &:focus {
                 outline: none;
+                border-bottom: 2px solid $color-primary;
+                background-color: lighten($color-black-light, 5%);
             }
         
             &::-webkit-input-placeholder {
@@ -26,18 +46,56 @@
                 font-size: 1.5rem;
                 font-family: inherit;
                 color: $color-white;
+                transition: color 0.3s ease-in-out;
+            }
+
+            &:focus::-webkit-input-placeholder {
+                color: $color-primary-light;
             }
         }
     }
 
     &__svg {
-        padding: 0rem 1rem;
-        cursor: pointer;
         position: absolute;
-        
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+
         & svg {
-            font-size: 3rem;
+            font-size: 2.4rem;
             fill: $color-primary;
+            transition: fill 0.3s ease-in-out;
+
+            &:hover {
+                fill: $color-primary-dark;
+            }
         }
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &__error {
+        font-size: 1.2rem;
+        color: #e93f3f;
+        margin-top: 0.5rem;
+        opacity: 0;
+        animation: fade-in 0.3s forwards;
+    }
+}
+
+/* Animations */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
