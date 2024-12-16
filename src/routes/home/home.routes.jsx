@@ -28,7 +28,7 @@ const Home = () => {
             {isLoaded ? (
                 <Intro />
                 ) : (
-                    <div style={{ color: "red" }}>Something went wrong</div>
+                    <div style={{ color: "red" }}>Something went wrong...</div>
                 )
             }   
         </>
