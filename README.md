@@ -7,6 +7,10 @@ BingeBox is a web application designed to simplify planning your movie by provid
 - Customizable and scalable for future enhancements.
 
 ### How It Works
-- 1. The api_key is used for authentication with TMDb's API.
-- 2. The imageBaseURL helps load movie images dynamically from TMDb's resources.
-- 3. The fetchDataFromServer function provides a reusable and error-handling mechanism to fetch data from any API endpoint.
+ 1. The api_key is used for authentication with TMDb's API.
+ 2. The imageBaseURL helps load movie images dynamically from TMDb's resources.
+ 3. The fetchDataFromServer function provides a reusable and error-handling mechanism to fetch data from any API endpoint.
+
+### Contribution
+Please feel free to fix the repository and submit pull requests. All contributions are welcome!
+
