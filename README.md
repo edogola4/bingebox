@@ -5,3 +5,6 @@ BingeBox is a web application designed to simplify planning your movie by provid
 - Movie details fetched from The Movie Database (TMDb).
 - Clean and intuitive interface powered by dynamic JavaScript functionality.
 - Customizable and scalable for future enhancements.
+
+## Key Code Snippets
+The project uses the following utility function and constants to interact with the TMDb API:
